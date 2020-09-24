@@ -1,16 +1,16 @@
 use proc_macro::TokenStream as TokenStream;
 
-use Data::Struct;
-use Fields::Named;
 use proc_macro2::TokenStream as TokenStream2;
-use quote::quote;
+use quote::{
+    format_ident,
+    quote,
+};
 use syn::{
     Data,
     DataStruct,
     DeriveInput,
     Fields,
 };
-use syn::export::TokenStreamExt;
 
 pub(crate) fn getter(input: DeriveInput) -> TokenStream {
     let name = input.ident.clone();
@@ -28,16 +28,26 @@ fn generate_body(input: DeriveInput) -> TokenStream2 {
         Data::Struct(DataStruct { fields: Fields::Named(fields), .. }) => &fields.named,
         _ => return TokenStream2::new(),
     };
-    let field_names = fields.iter().map(|field| &field.ident);
-    let field_types = fields.iter().map(|field| &field.ty);
 
-    let struct_name = &input.ident;
+    let getters = fields
+        .iter()
+        .map(|field| {
+            let field_name = field.ident.clone().unwrap();
+            let field_name_lower = field_name.clone().to_string().to_lowercase();
+
+            let fn_getter_name = format_ident!("get_{}", field_name_lower);
+            let fn_type = field.ty.clone();
+
+            quote! {
+                pub fn #fn_getter_name(&self) -> &#fn_type {
+                    &self.#field_name
+                }
+            }
+        });
 
     TokenStream2::from(quote! {
         #(
-            fn #field_names(&self) -> #field_types {
-                &self.#field_names
-            }
+            #getters
         )*
     })
 }
