@@ -1,4 +1,4 @@
-use proc_macro::{TokenStream as TokenStream, TokenTree};
+use proc_macro::TokenStream as TokenStream;
 
 use Data::Struct;
 use Fields::Named;
@@ -8,9 +8,7 @@ use syn::{
     Data,
     DataStruct,
     DeriveInput,
-    export::ToTokens,
     Fields,
-    spanned::Spanned,
 };
 use syn::export::TokenStreamExt;
 
@@ -26,14 +24,20 @@ pub(crate) fn getter(input: DeriveInput) -> TokenStream {
 }
 
 fn generate_body(input: DeriveInput) -> TokenStream2 {
-    let mut body = TokenStream2::new();
-    match input.data {
-        Struct(DataStruct { fields: Named(fields), .. }) => {
-            for name in fields.named {
-                println!("{}", name.ident.unwrap());
-            };
-        }
-        _ => {}
+    let fields = match &input.data {
+        Data::Struct(DataStruct { fields: Fields::Named(fields), .. }) => &fields.named,
+        _ => return TokenStream2::new(),
     };
-    body
+    let field_names = fields.iter().map(|field| &field.ident);
+    let field_types = fields.iter().map(|field| &field.ty);
+
+    let struct_name = &input.ident;
+
+    TokenStream2::from(quote! {
+        #(
+            fn #field_names(&self) -> #field_types {
+                &self.#field_names
+            }
+        )*
+    })
 }
