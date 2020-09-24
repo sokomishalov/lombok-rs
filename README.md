@@ -1,10 +1,10 @@
 # Lombok Rust
 Lombok port for Rust
 
-#### Why?
+## Why?
 Boilerplate sucks. So get some proc macros stuff for decrease it.
 
-#### Implementation list so far
+## Implementation list so far
 - [x] @Getter - derive Getter or GetterMut 
 - [x] @Setter - derive Setter
 - [x] @EqualsAndHashCode - derive Eq or PartialEq from stdlib
@@ -15,7 +15,7 @@ Boilerplate sucks. So get some proc macros stuff for decrease it.
 
 <br>
 
-#### License
+## License
 
 <sup>
 Licensed under either of <a href="LICENSE-APACHE.md">Apache License, Version
