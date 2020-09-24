@@ -36,7 +36,7 @@ fn generate_body(input: DeriveInput) -> TokenStream2 {
             let field_name_lower = field_name.clone().to_string().to_lowercase();
             let fn_type = field.ty.clone();
 
-            let fn_setter_name = format_ident!("set_{}", field_name_lc);
+            let fn_setter_name = format_ident!("set_{}", field_name_lower);
 
             quote! {
                 pub fn #fn_setter_name(&mut self, #field_name: #fn_type) {
