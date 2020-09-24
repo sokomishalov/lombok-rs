@@ -1,8 +1,9 @@
 #[cfg(test)]
 mod tests {
     use lombok_rs::Getter;
+    use lombok_rs::GetterMut;
 
-    #[derive(Getter)]
+    #[derive(Getter, GetterMut)]
     pub struct TestGetter {
         age: u8,
         nick: &'static str,
