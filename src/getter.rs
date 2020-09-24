@@ -34,9 +34,9 @@ fn generate_body(input: DeriveInput) -> TokenStream2 {
         .map(|field| {
             let field_name = field.ident.clone().unwrap();
             let field_name_lower = field_name.clone().to_string().to_lowercase();
+            let fn_type = field.ty.clone();
 
             let fn_getter_name = format_ident!("get_{}", field_name_lower);
-            let fn_type = field.ty.clone();
 
             quote! {
                 pub fn #fn_getter_name(&self) -> &#fn_type {

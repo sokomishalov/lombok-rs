@@ -1,6 +1,17 @@
 # Lombok Rust
 Lombok port for Rust
 
+#### Why?
+Boilerplate sucks. So get some proc macros stuff for decrease it.
+
+#### Implementation list so far
+- [ ] @Getter
+- [ ] @Setter
+- [ ] @EqualsAndHashCode
+- [ ] @ToString
+- [ ] @Data
+- [ ] @AllArgsConstructor
+- [ ] @Builder
 
 <br>
 
