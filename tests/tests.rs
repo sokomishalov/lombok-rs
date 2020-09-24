@@ -2,9 +2,10 @@
 mod tests {
     use lombok_rs::Getter;
     use lombok_rs::GetterMut;
+    use lombok_rs::Setter;
 
-    #[derive(Getter, GetterMut)]
-    pub struct TestGetter {
+    #[derive(Getter, GetterMut, Setter)]
+    pub struct TestStructure {
         age: u8,
         nick: &'static str,
         position: String,
@@ -14,7 +15,7 @@ mod tests {
 
     #[test]
     fn test_getters() {
-        let data = TestGetter {
+        let data = TestStructure {
             age: 25,
             nick: "sokomishalov",
             position: "developer".to_string(),

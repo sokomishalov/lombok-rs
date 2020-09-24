@@ -5,9 +5,9 @@ Lombok port for Rust
 Boilerplate sucks. So get some proc macros stuff for decrease it.
 
 #### Implementation list so far
-- [ ] @Getter
-- [ ] @Setter
-- [ ] @EqualsAndHashCode
+- [x] @Getter - derive Getter or GetterMut 
+- [x] @Setter - derive Setter
+- [x] @EqualsAndHashCode - derive Eq or PartialEq from stdlib
 - [ ] @ToString
 - [ ] @Data
 - [ ] @AllArgsConstructor
