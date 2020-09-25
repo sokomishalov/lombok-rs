@@ -10,7 +10,7 @@ Boilerplate sucks. So get some proc macros stuff for decrease it.
 - [x] @EqualsAndHashCode - derive Eq or PartialEq from stdlib
 - [ ] @ToString
 - [ ] @Data
-- [ ] @AllArgsConstructor
+- [x] @AllArgsConstructor - derive AllArgsConstructor
 - [ ] @Builder
 
 <br>
