@@ -5,13 +5,13 @@ Lombok port for Rust
 Boilerplate sucks. So get some proc macros stuff for decrease it.
 
 ## Implementation list so far
-- [x] @Getter - derive Getter or GetterMut 
-- [x] @Setter - derive Setter
-- [x] @EqualsAndHashCode - derive Eq or PartialEq from stdlib
-- [ ] @ToString
-- [ ] @Data
-- [x] @AllArgsConstructor - derive AllArgsConstructor
-- [ ] @Builder
+- [x] `@Getter` - `#[derive(Getter, GetterMut)]` 
+- [x] `@Setter` - `#[derive(Setter)]`
+- [ ] `@EqualsAndHashCode`
+- [ ] `@ToString`
+- [ ] `@Data`
+- [x] `@AllArgsConstructor` - `#[derive(AllArgsConstructor)]`
+- [ ] `@Builder`
 
 <br>
 
