@@ -5,6 +5,7 @@ use proc_macro::TokenStream;
 use syn::{DeriveInput, parse_macro_input};
 
 use all_args_constructor::all_args_constructor;
+use builder::builder;
 use getter::getter;
 use getter_mut::getter_mut;
 use setter::setter;
@@ -13,6 +14,7 @@ mod getter;
 mod getter_mut;
 mod setter;
 mod all_args_constructor;
+mod builder;
 
 #[proc_macro_derive(Getter)]
 pub fn derive_getter(item: TokenStream) -> TokenStream {
@@ -32,4 +34,9 @@ pub fn derive_setter(item: TokenStream) -> TokenStream {
 #[proc_macro_derive(AllArgsConstructor)]
 pub fn derive_all_args_constructor(item: TokenStream) -> TokenStream {
     all_args_constructor(parse_macro_input!(item as DeriveInput))
+}
+
+#[proc_macro_derive(Builder)]
+pub fn derive_builder(item: TokenStream) -> TokenStream {
+    builder(parse_macro_input!(item as DeriveInput))
 }
