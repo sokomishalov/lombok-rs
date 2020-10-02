@@ -16,20 +16,23 @@ pub(crate) fn builder(input: DeriveInput) -> TokenStream {
 
     let builder_struct = generate_builder_struct(&input);
     let struct_impl = generate_struct_impl(&input);
+    let builder_impl = generate_builder_impl(&input);
 
     TokenStream::from(quote! {
-        struct #builder_name #builder_struct
+        struct #builder_name {
+            #builder_struct
+        }
 
         impl #name {
             pub fn builder() -> #builder_name {
-                #builder_name #struct_impl
+                #builder_name {
+                    #struct_impl
+                }
             }
         }
 
         impl #builder_name {
-           fn build(&self) -> #name {
-
-           }
+           #builder_impl
         }
     })
 }
@@ -51,13 +54,59 @@ fn generate_builder_struct(input: &DeriveInput) -> TokenStream2 {
             }
         });
 
+
     TokenStream2::from(quote! {
-        {#(#builder_structure_fields)*}
+        #(
+            #builder_structure_fields
+        )*
     })
 }
 
-fn generate_builder_impl(input: DeriveInput) -> TokenStream2 {
-    TokenStream2::new()
+fn generate_builder_impl(input: &DeriveInput) -> TokenStream2 {
+    let name = input.ident.clone();
+
+    let fields = match &input.data {
+        Data::Struct(DataStruct { fields: Fields::Named(fields), .. }) => &fields.named,
+        _ => return TokenStream2::new(),
+    };
+
+    let builder_methods = fields
+        .iter()
+        .map(|field| {
+            let field_name = field.ident.clone().unwrap();
+            let field_type = field.ty.clone();
+
+            quote! {
+                pub fn #field_name(&mut self, #field_name: #field_type) -> &mut Self {
+                    self.#field_name = #field_name;
+                    self
+                }
+            }
+        });
+
+    let struct_params = fields
+        .iter()
+        .map(|field| {
+            let field_name = field.ident.clone().unwrap();
+
+            quote! {
+                #field_name: self.#field_name,
+            }
+        });
+
+    TokenStream2::from(quote! {
+        #(
+            #builder_methods
+        )*
+
+        pub fn build(&self) -> #name {
+             #name {
+                 #(
+                     #struct_params
+                 )*
+             }
+        }
+    })
 }
 
 fn generate_struct_impl(input: &DeriveInput) -> TokenStream2 {
@@ -66,16 +115,19 @@ fn generate_struct_impl(input: &DeriveInput) -> TokenStream2 {
         _ => return TokenStream2::new(),
     };
 
-    let builder_structure_params = fields
+    let builder_struct_params = fields
         .iter()
         .map(|field| {
             let field_name = field.ident.clone().unwrap();
+
             quote! {
                 #field_name: ::core::default::Default::default(),
             }
         });
 
     TokenStream2::from(quote! {
-        {#(#builder_structure_params)*}
+        #(
+            #builder_struct_params
+        )*
     })
 }

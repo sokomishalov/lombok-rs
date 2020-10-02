@@ -31,7 +31,11 @@ fn generate_body(input: DeriveInput) -> TokenStream2 {
 
     TokenStream2::from(quote! {
         pub fn new() -> Self {
-            Self {#(#structure_params)*}
+            Self {
+                #(
+                    #structure_params
+                )*
+            }
         }
     })
 }

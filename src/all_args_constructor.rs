@@ -48,7 +48,11 @@ fn generate_body(input: DeriveInput) -> TokenStream2 {
 
     TokenStream2::from(quote! {
         pub fn new(#(#constructor_fields)*) -> Self {
-            Self {#(#structure_params)*}
+            Self {
+                #(
+                    #structure_params
+                )*
+            }
         }
     })
 }

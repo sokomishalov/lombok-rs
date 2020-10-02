@@ -33,10 +33,9 @@ fn generate_body(input: DeriveInput) -> TokenStream2 {
         .iter()
         .map(|field| {
             let field_name = field.ident.clone().unwrap();
-            let field_name_lower = field_name.clone().to_string().to_lowercase();
             let fn_type = field.ty.clone();
 
-            let fn_getter_mut_name = format_ident!("get_{}_mut", field_name_lower);
+            let fn_getter_mut_name = format_ident!("get_{}_mut", field_name);
 
             quote! {
                  pub fn #fn_getter_mut_name(&mut self) -> &mut #fn_type {
