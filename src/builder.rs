@@ -5,14 +5,9 @@ use quote::{
     format_ident,
     quote,
 };
-use syn::{
-    Data,
-    DataStruct,
-    DeriveInput,
-    Fields,
-};
+use syn::DeriveInput;
 
-use crate::utils::syn::parse_derive_input;
+use crate::utils::syn::{named_fields, parse_derive_input};
 
 pub(crate) fn builder(input: TokenStream) -> TokenStream {
     let derive_input = parse_derive_input(input);
@@ -45,10 +40,7 @@ pub(crate) fn builder(input: TokenStream) -> TokenStream {
 }
 
 fn generate_builder_struct(input: &DeriveInput) -> TokenStream2 {
-    let fields = match &input.data {
-        Data::Struct(DataStruct { fields: Fields::Named(fields), .. }) => &fields.named,
-        _ => return TokenStream2::new(),
-    };
+    let fields = named_fields(&input);
 
     let builder_structure_fields = fields
         .iter()
@@ -72,10 +64,7 @@ fn generate_builder_struct(input: &DeriveInput) -> TokenStream2 {
 fn generate_builder_impl(input: &DeriveInput) -> TokenStream2 {
     let name = input.ident.clone();
 
-    let fields = match &input.data {
-        Data::Struct(DataStruct { fields: Fields::Named(fields), .. }) => &fields.named,
-        _ => return TokenStream2::new(),
-    };
+    let fields = named_fields(&input);
 
     let builder_methods = fields
         .iter()
@@ -117,10 +106,7 @@ fn generate_builder_impl(input: &DeriveInput) -> TokenStream2 {
 }
 
 fn generate_struct_impl(input: &DeriveInput) -> TokenStream2 {
-    let fields = match &input.data {
-        Data::Struct(DataStruct { fields: Fields::Named(fields), .. }) => &fields.named,
-        _ => return TokenStream2::new(),
-    };
+    let fields = named_fields(&input);
 
     let builder_struct_params = fields
         .iter()

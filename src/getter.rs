@@ -5,14 +5,9 @@ use quote::{
     format_ident,
     quote,
 };
-use syn::{
-    Data,
-    DataStruct,
-    DeriveInput,
-    Fields,
-};
+use syn::DeriveInput;
 
-use crate::utils::syn::parse_derive_input;
+use crate::utils::syn::{named_fields, parse_derive_input};
 
 pub(crate) fn getter(input: TokenStream) -> TokenStream {
     let derive_input = parse_derive_input(input);
@@ -28,10 +23,7 @@ pub(crate) fn getter(input: TokenStream) -> TokenStream {
 }
 
 fn generate_body(input: DeriveInput) -> TokenStream2 {
-    let fields = match &input.data {
-        Data::Struct(DataStruct { fields: Fields::Named(fields), .. }) => &fields.named,
-        _ => return TokenStream2::new(),
-    };
+    let fields = named_fields(&input);
 
     let getters = fields
         .iter()
