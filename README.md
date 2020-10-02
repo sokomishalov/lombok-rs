@@ -10,6 +10,7 @@ Boilerplate sucks. So get some proc macros stuff for decrease it.
 - [ ] `@EqualsAndHashCode`
 - [ ] `@ToString`
 - [ ] `@Data`
+- [x] `@NoArgsConstructor` - `#[derive(NoArgsConstructor)]`
 - [x] `@AllArgsConstructor` - `#[derive(AllArgsConstructor)]`
 - [ ] `@Builder`
 
