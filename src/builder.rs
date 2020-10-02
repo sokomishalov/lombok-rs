@@ -1,14 +1,16 @@
 use proc_macro::TokenStream as TokenStream;
-use std::any::Any;
 
 use proc_macro2::TokenStream as TokenStream2;
 use quote::{
     format_ident,
     quote,
 };
-use syn::{Data, DataStruct, DeriveInput, Field, Fields};
-use syn::punctuated::Punctuated;
-use syn::token::Token;
+use syn::{
+    Data,
+    DataStruct,
+    DeriveInput,
+    Fields,
+};
 
 pub(crate) fn builder(input: DeriveInput) -> TokenStream {
     let name = input.ident.clone();
@@ -99,7 +101,7 @@ fn generate_builder_impl(input: &DeriveInput) -> TokenStream2 {
             #builder_methods
         )*
 
-        pub fn build(&self) -> #name {
+        pub fn build(self) -> #name {
              #name {
                  #(
                      #struct_params

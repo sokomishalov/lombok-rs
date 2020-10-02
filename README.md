@@ -12,7 +12,7 @@ Boilerplate sucks. So get some proc macros stuff for decrease it.
 - [ ] `@Data`
 - [x] `@NoArgsConstructor` - `#[derive(NoArgsConstructor)]`
 - [x] `@AllArgsConstructor` - `#[derive(AllArgsConstructor)]`
-- [ ] `@Builder`
+- [x] `@Builder` - `#[derive(Builder)]`
 
 <br>
 
