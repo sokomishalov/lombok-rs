@@ -6,10 +6,11 @@ mod tests {
         Builder,
         Getter,
         GetterMut,
+        NoArgsConstructor,
         Setter,
     };
 
-    #[derive(Getter, GetterMut, Setter, AllArgsConstructor, Builder)]
+    #[derive(Getter, GetterMut, Setter, NoArgsConstructor, AllArgsConstructor, Builder)]
     pub struct TestStructure {
         age: u8,
         nick: &'static str,

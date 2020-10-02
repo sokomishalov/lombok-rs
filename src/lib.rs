@@ -8,11 +8,13 @@ use all_args_constructor::all_args_constructor;
 use builder::builder;
 use getter::getter;
 use getter_mut::getter_mut;
+use no_args_constructor::no_args_constructor;
 use setter::setter;
 
 mod getter;
 mod getter_mut;
 mod setter;
+mod no_args_constructor;
 mod all_args_constructor;
 mod builder;
 
@@ -32,6 +34,11 @@ pub fn derive_setter(item: TokenStream) -> TokenStream {
 }
 
 #[proc_macro_derive(AllArgsConstructor)]
+pub fn derive_no_args_constructor(item: TokenStream) -> TokenStream {
+    no_args_constructor(parse_macro_input!(item as DeriveInput))
+}
+
+#[proc_macro_derive(NoArgsConstructor)]
 pub fn derive_all_args_constructor(item: TokenStream) -> TokenStream {
     all_args_constructor(parse_macro_input!(item as DeriveInput))
 }
