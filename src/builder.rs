@@ -15,13 +15,14 @@ use syn::{
 pub(crate) fn builder(input: DeriveInput) -> TokenStream {
     let name = input.ident.clone();
     let builder_name = format_ident!("{}Builder", name);
+    let visibility = input.vis.clone();
 
     let builder_struct = generate_builder_struct(&input);
     let struct_impl = generate_struct_impl(&input);
     let builder_impl = generate_builder_impl(&input);
 
     TokenStream::from(quote! {
-        struct #builder_name {
+        #visibility struct #builder_name {
             #builder_struct
         }
 

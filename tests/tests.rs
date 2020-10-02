@@ -1,23 +1,25 @@
+use lombok_rs::{
+    AllArgsConstructor,
+    Builder,
+    Getter,
+    GetterMut,
+    NoArgsConstructor,
+    Setter,
+};
+
+#[derive(Getter, GetterMut, Setter, NoArgsConstructor, AllArgsConstructor, Builder)]
+pub struct TestStructure {
+    age: u8,
+    nick: &'static str,
+    position: String,
+    languages: Vec<String>,
+    hobby: Box<String>,
+}
+
 #[cfg(test)]
 #[allow(dead_code)]
 mod tests {
-    use lombok_rs::{
-        AllArgsConstructor,
-        Builder,
-        Getter,
-        GetterMut,
-        NoArgsConstructor,
-        Setter,
-    };
-
-    #[derive(Getter, GetterMut, Setter, NoArgsConstructor, AllArgsConstructor, Builder)]
-    pub struct TestStructure {
-        age: u8,
-        nick: &'static str,
-        position: String,
-        languages: Vec<String>,
-        hobby: Box<String>,
-    }
+    use super::TestStructure;
 
     #[test]
     fn test_getters() {
