@@ -12,14 +12,18 @@ use syn::{
     Fields,
 };
 
-pub(crate) fn builder(input: DeriveInput) -> TokenStream {
-    let name = input.ident.clone();
-    let builder_name = format_ident!("{}Builder", name);
-    let visibility = input.vis.clone();
+use crate::utils::syn::parse_derive_input;
 
-    let builder_struct = generate_builder_struct(&input);
-    let struct_impl = generate_struct_impl(&input);
-    let builder_impl = generate_builder_impl(&input);
+pub(crate) fn builder(input: TokenStream) -> TokenStream {
+    let derive_input = parse_derive_input(input);
+
+    let name = derive_input.ident.clone();
+    let builder_name = format_ident!("{}Builder", name);
+    let visibility = derive_input.vis.clone();
+
+    let builder_struct = generate_builder_struct(&derive_input);
+    let struct_impl = generate_struct_impl(&derive_input);
+    let builder_impl = generate_builder_impl(&derive_input);
 
     TokenStream::from(quote! {
         #visibility struct #builder_name {

@@ -12,9 +12,13 @@ use syn::{
     Fields,
 };
 
-pub(crate) fn getter_mut(input: DeriveInput) -> TokenStream {
-    let name = input.ident.clone();
-    let body = generate_body(input);
+use crate::utils::syn::parse_derive_input;
+
+pub(crate) fn getter_mut(input: TokenStream) -> TokenStream {
+    let derive_input = parse_derive_input(input);
+
+    let name = derive_input.ident.clone();
+    let body = generate_body(derive_input);
 
     TokenStream::from(quote! {
         impl #name {
