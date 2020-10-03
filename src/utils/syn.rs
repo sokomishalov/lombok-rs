@@ -1,9 +1,7 @@
 use proc_macro::TokenStream;
-use std::vec::IntoIter;
 
-use proc_macro2::Ident;
 use syn::{
-    parse, punctuated::Punctuated, token::Comma, Data, DataStruct, DeriveInput, Field, Fields, Type,
+    parse, punctuated::Punctuated, token::Comma, Data, DataStruct, DeriveInput, Field, Fields,
 };
 
 pub(crate) fn parse_derive_input(input: TokenStream) -> DeriveInput {

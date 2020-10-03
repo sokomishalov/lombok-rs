@@ -1,15 +1,16 @@
 use lombok_rs::{AllArgsConstructor, Builder, Getter, GetterMut, NoArgsConstructor, Setter};
 
-#[derive(Getter, GetterMut, Setter, NoArgsConstructor, AllArgsConstructor, Builder, Default)]
-pub struct TestNamedStructure {
+#[derive(Getter, GetterMut, Setter, NoArgsConstructor, AllArgsConstructor, Builder)]
+pub struct TestNamedStructure<A>
+where
+    A: ToString,
+{
     age: u8,
     nick: &'static str,
-    position: String,
+    position: A,
     languages: Vec<String>,
     hobby: Box<String>,
 }
-
-pub struct TestPositionalStructure(u8, &'static str, String, Vec<String>, Box<String>);
 
 #[cfg(test)]
 #[allow(dead_code)]

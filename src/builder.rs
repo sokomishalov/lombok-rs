@@ -9,7 +9,8 @@ use crate::utils::syn::{named_fields, parse_derive_input};
 pub(crate) fn builder(input: TokenStream) -> TokenStream {
     let derive_input = parse_derive_input(input);
 
-    let name = derive_input.ident.clone();
+    let name = &derive_input.ident.clone();
+    let (impl_generics, ty_generics, where_clause) = &derive_input.generics.split_for_impl();
     let builder_name = format_ident!("{}Builder", name);
     let visibility = derive_input.vis.clone();
 
@@ -18,11 +19,11 @@ pub(crate) fn builder(input: TokenStream) -> TokenStream {
     let builder_impl = generate_builder_impl(&derive_input);
 
     TokenStream::from(quote! {
-        #visibility struct #builder_name {
+        #visibility struct #builder_name #ty_generics #where_clause {
             #builder_struct
         }
 
-        impl #name {
+        impl #impl_generics #name #ty_generics #where_clause {
             pub fn builder() -> #builder_name {
                 #builder_name {
                     #struct_impl
@@ -30,7 +31,7 @@ pub(crate) fn builder(input: TokenStream) -> TokenStream {
             }
         }
 
-        impl #builder_name {
+        impl #impl_generics #builder_name #ty_generics #where_clause {
            #builder_impl
         }
     })
