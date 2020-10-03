@@ -24,7 +24,7 @@ pub(crate) fn builder(input: TokenStream) -> TokenStream {
         }
 
         impl #impl_generics #name #ty_generics #where_clause {
-            pub fn builder() -> #builder_name {
+            pub fn builder() -> #builder_name #ty_generics {
                 #builder_name {
                     #struct_impl
                 }
@@ -58,6 +58,7 @@ fn generate_builder_struct(input: &DeriveInput) -> TokenStream2 {
 
 fn generate_builder_impl(input: &DeriveInput) -> TokenStream2 {
     let name = input.ident.clone();
+    let (_, ty_generics, _) = &input.generics.split_for_impl();
 
     let fields = named_fields(&input);
 
@@ -86,7 +87,7 @@ fn generate_builder_impl(input: &DeriveInput) -> TokenStream2 {
             #builder_methods
         )*
 
-        pub fn build(self) -> #name {
+        pub fn build(self) -> #name #ty_generics {
              #name {
                  #(
                      #struct_params
