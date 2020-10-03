@@ -1,4 +1,4 @@
-use proc_macro::TokenStream as TokenStream;
+use proc_macro::TokenStream;
 
 use proc_macro2::TokenStream as TokenStream2;
 use quote::quote;
@@ -22,25 +22,21 @@ pub(crate) fn all_args_constructor(input: TokenStream) -> TokenStream {
 fn generate_body(input: DeriveInput) -> TokenStream2 {
     let fields = named_fields(&input);
 
-    let constructor_fields = fields
-        .iter()
-        .map(|field| {
-            let field_name = field.ident.clone().unwrap();
-            let fn_type = field.ty.clone();
+    let constructor_fields = fields.iter().map(|field| {
+        let field_name = field.ident.clone().unwrap();
+        let fn_type = field.ty.clone();
 
-            quote! {
-                #field_name: #fn_type,
-            }
-        });
+        quote! {
+            #field_name: #fn_type,
+        }
+    });
 
-    let structure_params = fields
-        .iter()
-        .map(|field| {
-            let field_name = field.ident.clone().unwrap();
-            quote! {
-                #field_name,
-            }
-        });
+    let structure_params = fields.iter().map(|field| {
+        let field_name = field.ident.clone().unwrap();
+        quote! {
+            #field_name,
+        }
+    });
 
     TokenStream2::from(quote! {
         pub fn new(#(#constructor_fields)*) -> Self {

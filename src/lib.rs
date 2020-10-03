@@ -9,12 +9,12 @@ use getter_mut::getter_mut;
 use no_args_constructor::no_args_constructor;
 use setter::setter;
 
-mod getter;
-mod getter_mut;
-mod setter;
-mod no_args_constructor;
 mod all_args_constructor;
 mod builder;
+mod getter;
+mod getter_mut;
+mod no_args_constructor;
+mod setter;
 
 mod utils;
 
