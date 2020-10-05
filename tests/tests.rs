@@ -1,6 +1,18 @@
-use lombok_rs::{AllArgsConstructor, Builder, Getter, GetterMut, NoArgsConstructor, Setter};
+use lombok_rs::{
+    AllArgsConstructor, Builder, EqualsAndHashcode, Getter, GetterMut, NoArgsConstructor, Setter,
+};
 
-#[derive(Getter, GetterMut, Setter, NoArgsConstructor, AllArgsConstructor, Builder)]
+#[derive(
+    Getter,
+    GetterMut,
+    Setter,
+    NoArgsConstructor,
+    AllArgsConstructor,
+    Builder,
+    EqualsAndHashcode,
+    PartialEq,
+    Hash,
+)]
 pub struct TestNamedStructure<A>
 where
     A: ToString,

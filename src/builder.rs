@@ -24,11 +24,7 @@ pub(crate) fn builder(input: TokenStream) -> TokenStream {
         }
 
         impl #impl_generics #name #ty_generics #where_clause {
-            pub fn builder() -> #builder_name #ty_generics {
-                #builder_name {
-                    #struct_impl
-                }
-            }
+            #struct_impl
         }
 
         impl #impl_generics #builder_name #ty_generics #where_clause {
@@ -99,6 +95,9 @@ fn generate_builder_impl(input: &DeriveInput) -> TokenStream2 {
 
 fn generate_struct_impl(input: &DeriveInput) -> TokenStream2 {
     let fields = named_fields(&input);
+    let name = &input.ident.clone();
+    let builder_name = format_ident!("{}Builder", name);
+    let (_, ty_generics, _) = &input.generics.split_for_impl();
 
     let builder_struct_params = fields.iter().map(|field| {
         let field_name = field.ident.clone().unwrap();
@@ -109,8 +108,12 @@ fn generate_struct_impl(input: &DeriveInput) -> TokenStream2 {
     });
 
     TokenStream2::from(quote! {
-        #(
-            #builder_struct_params
-        )*
+        pub fn builder() -> #builder_name #ty_generics {
+            #builder_name {
+                #(
+                    #builder_struct_params
+                )*
+            }
+        }
     })
 }

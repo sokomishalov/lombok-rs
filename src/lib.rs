@@ -4,6 +4,7 @@ use proc_macro::TokenStream;
 
 use all_args_constructor::all_args_constructor;
 use builder::builder;
+use equals_and_hashcode::equals_and_hashcode;
 use getter::getter;
 use getter_mut::getter_mut;
 use no_args_constructor::no_args_constructor;
@@ -11,6 +12,7 @@ use setter::setter;
 
 mod all_args_constructor;
 mod builder;
+mod equals_and_hashcode;
 mod getter;
 mod getter_mut;
 mod no_args_constructor;
@@ -46,4 +48,9 @@ pub fn derive_all_args_constructor(input: TokenStream) -> TokenStream {
 #[proc_macro_derive(Builder)]
 pub fn derive_builder(input: TokenStream) -> TokenStream {
     builder(input)
+}
+
+#[proc_macro_derive(EqualsAndHashcode)]
+pub fn derive_equals_and_hashcode(input: TokenStream) -> TokenStream {
+    equals_and_hashcode(input)
 }
