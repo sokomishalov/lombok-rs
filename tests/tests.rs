@@ -3,15 +3,7 @@ use lombok_rs::{
 };
 
 #[derive(
-    Getter,
-    GetterMut,
-    Setter,
-    NoArgsConstructor,
-    AllArgsConstructor,
-    Builder,
-    EqualsAndHashcode,
-    PartialEq,
-    Hash,
+    Getter, GetterMut, Setter, NoArgsConstructor, AllArgsConstructor, Builder, EqualsAndHashcode,
 )]
 pub struct TestNamedStructure<A>
 where
