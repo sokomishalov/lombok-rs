@@ -62,13 +62,81 @@ fn generate_partial_eq_body(input: &DeriveInput) -> TokenStream2 {
     let name = &input.ident.clone();
     let (impl_generics, ty_generics, where_clause) = &input.generics.split_for_impl();
 
+    let struct_refs_first = fields.iter().enumerate().map(|(i, field)| {
+        let field_name = field.ident.clone().unwrap();
+        let reference = format_ident!("__self_0_{}", i.to_string());
+
+        quote! {
+            #field_name: ref #reference,
+        }
+    });
+
+    let struct_refs_second = fields.iter().enumerate().map(|(i, field)| {
+        let field_name = field.ident.clone().unwrap();
+        let reference = format_ident!("__self_1_{}", i.to_string());
+
+        quote! {
+            #field_name: ref #reference,
+        }
+    });
+
+    let equalities = fields.iter().enumerate().map(|(i, field)| {
+        let reference_first = format_ident!("__self_0_{}", i.to_string());
+        let reference_second = format_ident!("__self_1_{}", i.to_string());
+
+        quote! {
+            (*#reference_first) == (*#reference_second) &&
+        }
+    });
+
+    let non_equalities = fields.iter().enumerate().map(|(i, field)| {
+        let reference_first = format_ident!("__self_0_{}", i.to_string());
+        let reference_second = format_ident!("__self_1_{}", i.to_string());
+
+        quote! {
+            (*#reference_first) != (*#reference_second) ||
+        }
+    });
+
     TokenStream2::from(quote! {
-        fn eq(&self, other: &#name#ty_generics) -> bool {
-            true
+        fn eq(&self, other: &TestNamedStructure<A>) -> bool {
+            match *other {
+                #name {
+                    #(
+                        #struct_refs_second
+                    )*
+                } => match *self {
+                    #name {
+                        #(
+                            #struct_refs_first
+                        )*
+                    } => {
+                        #(
+                            #equalities
+                        )* true
+                    }
+                },
+            }
         }
 
-        fn ne(&self, other: &#name#ty_generics) -> bool {
-            true
+        fn ne(&self, other: &TestNamedStructure<A>) -> bool {
+            match *other {
+                #name {
+                    #(
+                        #struct_refs_second
+                    )*
+                } => match *self {
+                    #name {
+                        #(
+                            #struct_refs_first
+                        )*
+                    } => {
+                        #(
+                            #equalities
+                        )* false
+                    }
+                },
+            }
         }
     })
 }
