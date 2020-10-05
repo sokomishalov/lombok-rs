@@ -60,9 +60,8 @@ fn generate_eq_body(input: &DeriveInput) -> TokenStream2 {
 fn generate_partial_eq_body(input: &DeriveInput) -> TokenStream2 {
     let fields = named_fields(&input);
     let name = &input.ident.clone();
-    let (impl_generics, ty_generics, where_clause) = &input.generics.split_for_impl();
 
-    let struct_refs_first = fields.iter().enumerate().map(|(i, field)| {
+    let struct_refs_second_eq = fields.iter().enumerate().map(|(i, field)| {
         let field_name = field.ident.clone().unwrap();
         let reference = format_ident!("__self_0_{}", i.to_string());
 
@@ -71,7 +70,7 @@ fn generate_partial_eq_body(input: &DeriveInput) -> TokenStream2 {
         }
     });
 
-    let struct_refs_second = fields.iter().enumerate().map(|(i, field)| {
+    let struct_refs_first_eq = fields.iter().enumerate().map(|(i, field)| {
         let field_name = field.ident.clone().unwrap();
         let reference = format_ident!("__self_1_{}", i.to_string());
 
@@ -80,7 +79,10 @@ fn generate_partial_eq_body(input: &DeriveInput) -> TokenStream2 {
         }
     });
 
-    let equalities = fields.iter().enumerate().map(|(i, field)| {
+    let struct_refs_second_ne = struct_refs_second_eq.clone();
+    let struct_refs_first_ne = struct_refs_first_eq.clone();
+
+    let equalities = fields.iter().enumerate().map(|(i, _)| {
         let reference_first = format_ident!("__self_0_{}", i.to_string());
         let reference_second = format_ident!("__self_1_{}", i.to_string());
 
@@ -89,7 +91,7 @@ fn generate_partial_eq_body(input: &DeriveInput) -> TokenStream2 {
         }
     });
 
-    let non_equalities = fields.iter().enumerate().map(|(i, field)| {
+    let non_equalities = fields.iter().enumerate().map(|(i, _)| {
         let reference_first = format_ident!("__self_0_{}", i.to_string());
         let reference_second = format_ident!("__self_1_{}", i.to_string());
 
@@ -103,12 +105,12 @@ fn generate_partial_eq_body(input: &DeriveInput) -> TokenStream2 {
             match *other {
                 #name {
                     #(
-                        #struct_refs_second
+                        #struct_refs_second_eq
                     )*
                 } => match *self {
                     #name {
                         #(
-                            #struct_refs_first
+                            #struct_refs_first_eq
                         )*
                     } => {
                         #(
@@ -123,16 +125,16 @@ fn generate_partial_eq_body(input: &DeriveInput) -> TokenStream2 {
             match *other {
                 #name {
                     #(
-                        #struct_refs_second
+                        #struct_refs_second_ne
                     )*
                 } => match *self {
                     #name {
                         #(
-                            #struct_refs_first
+                            #struct_refs_first_ne
                         )*
                     } => {
                         #(
-                            #equalities
+                            #non_equalities
                         )* false
                     }
                 },
@@ -154,7 +156,7 @@ fn generate_hash_body(input: &DeriveInput) -> TokenStream2 {
         }
     });
 
-    let hashes = fields.iter().enumerate().map(|(i, field)| {
+    let hashes = fields.iter().enumerate().map(|(i, _)| {
         let reference = format_ident!("__self_0_{}", i.to_string());
 
         quote! {
