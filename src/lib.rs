@@ -9,6 +9,7 @@ use getter::getter;
 use getter_mut::getter_mut;
 use no_args_constructor::no_args_constructor;
 use setter::setter;
+use to_string::to_string;
 
 mod all_args_constructor;
 mod builder;
@@ -17,6 +18,7 @@ mod getter;
 mod getter_mut;
 mod no_args_constructor;
 mod setter;
+mod to_string;
 
 mod utils;
 
@@ -53,4 +55,9 @@ pub fn derive_builder(input: TokenStream) -> TokenStream {
 #[proc_macro_derive(EqualsAndHashcode)]
 pub fn derive_equals_and_hashcode(input: TokenStream) -> TokenStream {
     equals_and_hashcode(input)
+}
+
+#[proc_macro_derive(ToString)]
+pub fn derive_to_string(input: TokenStream) -> TokenStream {
+    to_string(input)
 }

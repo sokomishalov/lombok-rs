@@ -7,7 +7,7 @@ Boilerplate sucks. So get some proc macros stuff for decrease it.
 ## Implementation list so far
 - [x] `@Getter` - `#[derive(Getter, GetterMut)]` 
 - [x] `@Setter` - `#[derive(Setter)]`
-- [ ] `@EqualsAndHashCode`
+- [x] `@EqualsAndHashCode`
 - [ ] `@ToString`
 - [ ] `@Data`
 - [x] `@NoArgsConstructor` - `#[derive(NoArgsConstructor)]`
