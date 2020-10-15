@@ -1,7 +1,7 @@
 use proc_macro::TokenStream;
 
 use proc_macro2::TokenStream as TokenStream2;
-use quote::quote;
+use quote::{format_ident, quote};
 use syn::DeriveInput;
 
 use crate::utils::syn::{named_fields, parse_derive_input};
@@ -11,37 +11,67 @@ pub(crate) fn to_string(input: TokenStream) -> TokenStream {
 
     let name = &derive_input.ident.clone();
     let (impl_generics, ty_generics, where_clause) = &derive_input.generics.split_for_impl();
-    let body = generate_body(&derive_input);
+
+    let debug_body = generate_debug_body(&derive_input);
+    let display_body = debug_body.clone();
 
     TokenStream::from(quote! {
-        impl #impl_generics ToString for #name #ty_generics #where_clause {
-            fn to_string(&self) -> String {
-                #body
+        impl #impl_generics ::std::fmt::Debug for #name #ty_generics #where_clause {
+            fn fmt(&self, f: &mut ::core::fmt::Formatter) -> ::core::fmt::Result {
+                #debug_body
+            }
+        }
+
+        impl #impl_generics ::std::fmt::Display for #name #ty_generics #where_clause {
+            fn fmt(&self, f: &mut ::core::fmt::Formatter) -> ::core::fmt::Result {
+                #display_body
+            }
+        }
+
+        impl #impl_generics ::std::string::ToString for #name #ty_generics #where_clause {
+            fn to_string(&self) -> ::std::string::String {
+                ::std::format!("{:?}", self)
             }
         }
     })
 }
 
-fn generate_body(input: &DeriveInput) -> TokenStream2 {
+fn generate_debug_body(input: &DeriveInput) -> TokenStream2 {
+    let name = &input.ident.clone();
+    let plain_name = &input.ident.clone().to_string();
     let fields = named_fields(&input);
-    let start = format!("{} ", &input.ident.clone());
-    let end = ")";
 
-    let enrichers = fields.iter().map(|field| {
+    let struct_refs = fields.iter().enumerate().map(|(i, field)| {
         let field_name = field.ident.clone().unwrap();
-        let injector = format!("{} = {}{}", field_name, "{", "}");
+        let reference = format_ident!("__self_0_{}", i.to_string());
 
         quote! {
-            accum.push_str(format!(#injector, &self.#field_name).to_owned());
+            #field_name: ref #reference,
+        }
+    });
+
+    let formatter_enrichments = fields.iter().enumerate().map(|(i, field)| {
+        let plain_field_name = field.ident.clone().unwrap().to_string();
+        let reference = format_ident!("__self_0_{}", i.to_string());
+
+        quote! {
+            let _ = debug_trait_builder.field(#plain_field_name, &&(*#reference));
         }
     });
 
     TokenStream2::from(quote! {
-        let mut accum = #start.to_owned();
-        #(
-            #enrichers
-        )*
-        accum.push_str(#end);
-        return accum
+        match *self {
+            #name {
+                #(
+                    #struct_refs
+                )*
+            } => {
+                let mut debug_trait_builder = f.debug_struct(#plain_name);
+                #(
+                    #formatter_enrichments
+                )*
+                debug_trait_builder.finish()
+            }
+        }
     })
 }
