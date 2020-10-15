@@ -1,6 +1,7 @@
 extern crate proc_macro;
 
 use proc_macro::TokenStream;
+use std::iter::FromIterator;
 
 use all_args_constructor::all_args_constructor;
 use builder::builder;
@@ -60,4 +61,18 @@ pub fn derive_equals_and_hashcode(input: TokenStream) -> TokenStream {
 #[proc_macro_derive(ToString)]
 pub fn derive_to_string(input: TokenStream) -> TokenStream {
     to_string(input)
+}
+
+#[proc_macro_derive(Data)]
+pub fn derive_data(input: TokenStream) -> TokenStream {
+    TokenStream::from_iter(
+        vec![
+            getter(input.clone()),
+            setter(input.clone()),
+            all_args_constructor(input.clone()),
+            to_string(input.clone()),
+            equals_and_hashcode(input.clone()),
+        ]
+        .into_iter(),
+    )
 }

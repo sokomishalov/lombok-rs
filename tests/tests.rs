@@ -2,7 +2,7 @@
 #![feature(derive_eq)]
 #![feature(structural_match)]
 
-use lombok_rs::{
+use lombok::{
     AllArgsConstructor, Builder, EqualsAndHashcode, Getter, GetterMut, NoArgsConstructor, Setter,
     ToString,
 };
