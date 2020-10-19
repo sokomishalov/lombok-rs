@@ -60,6 +60,7 @@ fn generate_eq_body(input: &DeriveInput) -> TokenStream2 {
 fn generate_partial_eq_body(input: &DeriveInput) -> TokenStream2 {
     let fields = named_fields(&input);
     let name = &input.ident.clone();
+    let (_, ty_generics, _) = &input.generics.split_for_impl();
 
     let struct_refs_second_eq = fields.iter().enumerate().map(|(i, field)| {
         let field_name = field.ident.clone().unwrap();
@@ -101,7 +102,7 @@ fn generate_partial_eq_body(input: &DeriveInput) -> TokenStream2 {
     });
 
     TokenStream2::from(quote! {
-        fn eq(&self, other: &TestNamedStructure<A>) -> bool {
+        fn eq(&self, other: &TestNamedStructure#ty_generics) -> bool {
             match *other {
                 #name {
                     #(
@@ -121,7 +122,7 @@ fn generate_partial_eq_body(input: &DeriveInput) -> TokenStream2 {
             }
         }
 
-        fn ne(&self, other: &TestNamedStructure<A>) -> bool {
+        fn ne(&self, other: &TestNamedStructure#ty_generics) -> bool {
             match *other {
                 #name {
                     #(

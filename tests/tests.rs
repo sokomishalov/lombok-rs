@@ -17,11 +17,8 @@ use lombok::{
     EqualsAndHashcode,
     ToString,
 )]
-pub struct TestNamedStructure<A>
-where
-    A: ToOwned,
-{
-    age: A,
+pub struct TestNamedStructure {
+    age: usize,
     nick: &'static str,
     languages: Vec<String>,
     hobby: Box<String>,
