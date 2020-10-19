@@ -2,13 +2,17 @@
 Lombok port for Rust
 
 ## Why?
-Boilerplate sucks. So get some proc macros stuff for decrease it.
+Just because I can! 
+
+Such crate is not actually the must-have one for 
+development in Rust (unlike Java world), 
+but if you find it useful - it would be great. Any feedback is appreciated.
 
 ## Implementation list so far
-- [x] `@Getter` - `#[derive(Getter, GetterMut)]` 
+- [x] `@Getter` - `#[derive(Getter)]` / `#[derive(GetterMut)]` 
 - [x] `@Setter` - `#[derive(Setter)]`
 - [x] `@EqualsAndHashCode` - `#[derive(EqualsAndHashCode)]`
-- [x] `@ToString` - `#[derive(EqualsAndHashCode)]`
+- [x] `@ToString` - `#[derive(ToString)]`
 - [x] `@Data` - `#[derive(Data)]`
 - [x] `@NoArgsConstructor` - `#[derive(NoArgsConstructor)]`
 - [x] `@AllArgsConstructor` - `#[derive(AllArgsConstructor)]`
