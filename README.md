@@ -1,12 +1,14 @@
 # Lombok Rust
-Lombok port for Rust
+[Lombok](https://projectlombok.org) port for Rust.
 
 ## Why?
 Just because I can! 
 
-Such crate is not actually the must-have one for 
-development in Rust (unlike Java world), 
-but if you find it useful - it would be great. Any feedback is appreciated.
+This crate is not actually the must-have one for development in Rust (unlike Java world), 
+but if you find it useful - it would be great. 
+Anyway - boilerplate sucks, so get some proc macros stuff for decrease it.
+
+Any feedback is appreciated.
 
 ## Implementation list so far
 - [x] `@Getter` - `#[derive(Getter)]` / `#[derive(GetterMut)]` 
