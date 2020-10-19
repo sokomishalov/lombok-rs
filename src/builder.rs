@@ -1,8 +1,6 @@
 use proc_macro::TokenStream;
 
-use proc_macro2::TokenStream as TokenStream2;
 use quote::{format_ident, quote};
-use syn::DeriveInput;
 
 use crate::utils::syn::{named_fields, parse_derive_input};
 
@@ -11,32 +9,12 @@ pub(crate) fn builder(input: TokenStream) -> TokenStream {
 
     let name = &derive_input.ident.clone();
     let (impl_generics, ty_generics, where_clause) = &derive_input.generics.split_for_impl();
-    let builder_name = format_ident!("{}Builder", name);
     let visibility = derive_input.vis.clone();
+    let builder_name = format_ident!("{}Builder", name);
 
-    let builder_struct = generate_builder_struct(&derive_input);
-    let struct_impl = generate_struct_impl(&derive_input);
-    let builder_impl = generate_builder_impl(&derive_input);
+    let fields = named_fields(&derive_input);
 
-    TokenStream::from(quote! {
-        #visibility struct #builder_name #ty_generics #where_clause {
-            #builder_struct
-        }
-
-        impl #impl_generics #name #ty_generics #where_clause {
-            #struct_impl
-        }
-
-        impl #impl_generics #builder_name #ty_generics #where_clause {
-           #builder_impl
-        }
-    })
-}
-
-fn generate_builder_struct(input: &DeriveInput) -> TokenStream2 {
-    let fields = named_fields(&input);
-
-    let builder_structure_fields = fields.iter().map(|field| {
+    let builder_struct_fields = fields.iter().map(|field| {
         let field_name = field.ident.clone().unwrap();
         let fn_type = field.ty.clone();
 
@@ -45,18 +23,13 @@ fn generate_builder_struct(input: &DeriveInput) -> TokenStream2 {
         }
     });
 
-    TokenStream2::from(quote! {
-        #(
-            #builder_structure_fields
-        )*
-    })
-}
+    let builder_struct_params = fields.iter().map(|field| {
+        let field_name = field.ident.clone().unwrap();
 
-fn generate_builder_impl(input: &DeriveInput) -> TokenStream2 {
-    let name = input.ident.clone();
-    let (_, ty_generics, _) = &input.generics.split_for_impl();
-
-    let fields = named_fields(&input);
+        quote! {
+            #field_name: ::core::default::Default::default(),
+        }
+    });
 
     let builder_methods = fields.iter().map(|field| {
         let field_name = field.ident.clone().unwrap();
@@ -78,41 +51,34 @@ fn generate_builder_impl(input: &DeriveInput) -> TokenStream2 {
         }
     });
 
-    TokenStream2::from(quote! {
-        #(
-            #builder_methods
-        )*
-
-        pub fn build(self) -> #name #ty_generics {
-             #name {
-                 #(
-                     #struct_params
-                 )*
-             }
+    TokenStream::from(quote! {
+        #visibility struct #builder_name #ty_generics #where_clause {
+            #(
+                #builder_struct_fields
+            )*
         }
-    })
-}
 
-fn generate_struct_impl(input: &DeriveInput) -> TokenStream2 {
-    let fields = named_fields(&input);
-    let name = &input.ident.clone();
-    let builder_name = format_ident!("{}Builder", name);
-    let (_, ty_generics, _) = &input.generics.split_for_impl();
-
-    let builder_struct_params = fields.iter().map(|field| {
-        let field_name = field.ident.clone().unwrap();
-
-        quote! {
-            #field_name: ::core::default::Default::default(),
+        impl #impl_generics #name #ty_generics #where_clause {
+            pub fn builder() -> #builder_name #ty_generics {
+                #builder_name {
+                    #(
+                        #builder_struct_params
+                    )*
+                }
+            }
         }
-    });
 
-    TokenStream2::from(quote! {
-        pub fn builder() -> #builder_name #ty_generics {
-            #builder_name {
-                #(
-                    #builder_struct_params
-                )*
+        impl #impl_generics #builder_name #ty_generics #where_clause {
+           #(
+                #builder_methods
+           )*
+
+            pub fn build(self) -> #name #ty_generics {
+                 #name {
+                     #(
+                         #struct_params
+                     )*
+                 }
             }
         }
     })

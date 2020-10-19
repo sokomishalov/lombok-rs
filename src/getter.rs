@@ -1,8 +1,6 @@
 use proc_macro::TokenStream;
 
-use proc_macro2::TokenStream as TokenStream2;
 use quote::{format_ident, quote};
-use syn::DeriveInput;
 
 use crate::utils::syn::{named_fields, parse_derive_input};
 
@@ -11,17 +9,7 @@ pub(crate) fn getter(input: TokenStream) -> TokenStream {
 
     let name = &derive_input.ident.clone();
     let (impl_generics, ty_generics, where_clause) = &derive_input.generics.split_for_impl();
-    let body = generate_body(&derive_input);
-
-    TokenStream::from(quote! {
-        impl #impl_generics #name #ty_generics #where_clause {
-            #body
-        }
-    })
-}
-
-fn generate_body(input: &DeriveInput) -> TokenStream2 {
-    let fields = named_fields(&input);
+    let fields = named_fields(&derive_input);
 
     let getters = fields.iter().map(|field| {
         let field_name = field.ident.clone().unwrap();
@@ -36,9 +24,11 @@ fn generate_body(input: &DeriveInput) -> TokenStream2 {
         }
     });
 
-    TokenStream2::from(quote! {
-        #(
-            #getters
-        )*
+    TokenStream::from(quote! {
+        impl #impl_generics #name #ty_generics #where_clause {
+            #(
+                #getters
+            )*
+        }
     })
 }
