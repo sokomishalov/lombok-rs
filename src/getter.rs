@@ -1,6 +1,7 @@
 use proc_macro::TokenStream;
 
 use quote::{format_ident, quote};
+use syn::{export::ToTokens, Type};
 
 use crate::utils::syn::{named_fields, parse_derive_input};
 
@@ -13,12 +14,15 @@ pub(crate) fn getter(input: TokenStream) -> TokenStream {
 
     let getters = fields.iter().map(|field| {
         let field_name = field.ident.clone().unwrap();
-        let fn_type = field.ty.clone();
-
-        let fn_getter_name = format_ident!("get_{}", field_name);
+        let field_type = &field.ty;
+        let return_type = match &field.ty {
+            Type::Reference(ref_type) => ref_type.to_token_stream(),
+            _ => quote! { &#field_type },
+        };
+        let getter_name = format_ident!("get_{}", field_name);
 
         quote! {
-            pub fn #fn_getter_name(&self) -> &#fn_type {
+            pub fn #getter_name(&self) -> #return_type {
                 &self.#field_name
             }
         }

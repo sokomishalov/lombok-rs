@@ -11,7 +11,7 @@ Anyway - boilerplate sucks, so get some proc macros stuff for decrease it.
 Any feedback is appreciated.
 
 ## Implementation list so far
-- [x] `@Getter` - `#[derive(Getter)]` / `#[derive(GetterMut)]` 
+- [x] `@Getter` - `#[derive(Getter)]` 
 - [x] `@Setter` - `#[derive(Setter)]`
 - [x] `@EqualsAndHashCode` - `#[derive(EqualsAndHashCode)]`
 - [x] `@ToString` - `#[derive(ToString)]`

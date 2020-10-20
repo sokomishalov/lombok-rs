@@ -3,23 +3,15 @@
 #![feature(structural_match)]
 
 use lombok::{
-    AllArgsConstructor, Builder, EqualsAndHashcode, Getter, GetterMut, NoArgsConstructor, Setter,
-    ToString,
+    AllArgsConstructor, Builder, EqualsAndHashcode, Getter, NoArgsConstructor, Setter, ToString,
 };
 
 #[derive(
-    Getter,
-    GetterMut,
-    Setter,
-    AllArgsConstructor,
-    NoArgsConstructor,
-    Builder,
-    EqualsAndHashcode,
-    ToString,
+    Getter, Setter, AllArgsConstructor, NoArgsConstructor, Builder, EqualsAndHashcode, ToString,
 )]
-pub struct TestNamedStructure {
+pub struct TestNamedStructure<'a> {
     age: usize,
-    nick: &'static str,
+    nick: &'a str,
     languages: Vec<String>,
     hobby: Box<String>,
 }
@@ -39,7 +31,7 @@ mod tests {
         };
 
         assert_eq!(&data.age, data.get_age());
-        assert_eq!(&data.nick, data.get_nick());
+        assert_eq!(&data.nick, &data.get_nick());
         assert_eq!(&data.languages, data.get_languages());
         assert_eq!(&data.hobby, data.get_hobby());
     }

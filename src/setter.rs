@@ -13,11 +13,11 @@ pub(crate) fn setter(input: TokenStream) -> TokenStream {
 
     let setters = fields.iter().map(|field| {
         let field_name = field.ident.clone().unwrap();
-        let fn_type = field.ty.clone();
-        let fn_setter_name = format_ident!("set_{}", field_name);
+        let field_type = &field.ty.clone();
+        let setter_name = format_ident!("set_{}", field_name);
 
         quote! {
-            pub fn #fn_setter_name(&mut self, #field_name: #fn_type) {
+            pub fn #setter_name(&mut self, #field_name: #field_type) {
                 self.#field_name = #field_name
             }
         }
