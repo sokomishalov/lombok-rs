@@ -10,7 +10,7 @@ use lombok::{
     Getter, Setter, AllArgsConstructor, NoArgsConstructor, Builder, EqualsAndHashcode, ToString,
 )]
 pub struct TestNamedStructure<'a> {
-    age: usize,
+    age: u8,
     nick: &'a str,
     languages: Vec<String>,
     hobby: Box<String>,
