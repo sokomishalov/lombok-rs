@@ -1,4 +1,7 @@
 // fixme
+#![feature(derive_eq)]
+#![feature(structural_match)]
+
 #[macro_use]
 extern crate lombok_derive;
 extern crate lombok_trait;
