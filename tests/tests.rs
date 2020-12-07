@@ -2,10 +2,19 @@
 #![feature(derive_eq)]
 #![feature(structural_match)]
 
-use lombok::{AllArgsContructor, Builder, EqualsAndHashcode, Getter, NoArgsConstructor, Setter};
+use lombok::{
+    AllArgsContructor, Builder, EqualsAndHashcode, Getter, NoArgsConstructor, Setter, ToString,
+};
 
 #[derive(
-    Getter, Setter, NoArgsConstructor, AllArgsContructor, Builder, EqualsAndHashcode, Clone,
+    Getter,
+    Setter,
+    NoArgsConstructor,
+    AllArgsContructor,
+    Builder,
+    EqualsAndHashcode,
+    ToString,
+    Clone,
 )]
 pub struct TestNamedStructure<'a> {
     age: u8,

@@ -58,11 +58,10 @@ pub(crate) fn to_string(input: TokenStream) -> TokenStream {
             }
         }
 
-        // TODO commented due to error[E0119]
-        // impl #impl_generics ::std::string::ToString for #name #ty_generics #where_clause {
-        //     fn to_string(&self) -> ::std::string::String {
-        //         ::std::format!("{:?}", self)
-        //     }
-        // }
+        impl #impl_generics #name #ty_generics #where_clause {
+            fn to_string(&self) -> ::std::string::String {
+                ::std::format!("{:?}", self)
+            }
+        }
     })
 }
