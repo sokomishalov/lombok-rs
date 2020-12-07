@@ -2,8 +2,7 @@
 #![feature(derive_eq)]
 #![feature(structural_match)]
 
-#[macro_use]
-extern crate lombok;
+use lombok::{AllArgsContructor, Builder, EqualsAndHashcode, Getter, NoArgsConstructor, Setter};
 
 #[derive(
     Getter, Setter, NoArgsConstructor, AllArgsContructor, Builder, EqualsAndHashcode, Clone,
