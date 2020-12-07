@@ -19,7 +19,7 @@ pub(crate) fn no_args_constructor(input: TokenStream) -> TokenStream {
     });
 
     TokenStream::from(quote! {
-        impl #impl_generics NoArgsContructor for #name #ty_generics #where_clause {
+        impl #impl_generics ::lombok_trait::NoArgsContructor for #name #ty_generics #where_clause {
             fn new() -> Self {
                 Self {
                     #(

@@ -6,8 +6,6 @@
 extern crate lombok_derive;
 extern crate lombok_trait;
 
-use lombok_trait::NoArgsContructor;
-
 #[derive(
     Getter, Setter, AllArgsConstructor, NoArgsConstructor, Builder, EqualsAndHashcode, ToString,
 )]
