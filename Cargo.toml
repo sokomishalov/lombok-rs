@@ -7,6 +7,10 @@ edition = "2018"
 readme = "README.md"
 license = "MIT OR Apache-2.0"
 
+[lib]
+proc-macro = true
+
 [dependencies]
-lombok-trait = { path = "lombok-trait" }
-lombok-derive = { path = "lombok-derive" }
+proc-macro2 = "1.0"
+syn = "1.0"
+quote = "1.0"

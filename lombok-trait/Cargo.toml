@@ -1,7 +1,0 @@
-[package]
-name = "lombok-trait"
-version = "0.1.0"
-authors = ["sokomishalov <sokomishalov@mail.ru>"]
-edition = "2018"
-
-[dependencies]

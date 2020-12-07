@@ -3,10 +3,11 @@
 #![feature(structural_match)]
 
 #[macro_use]
-extern crate lombok_derive;
-extern crate lombok_trait;
+extern crate lombok;
 
-#[derive(Getter, Setter, NoArgsConstructor, Builder, EqualsAndHashcode, ToString, Clone)]
+#[derive(
+    Getter, Setter, NoArgsConstructor, AllArgsContructor, Builder, EqualsAndHashcode, Clone,
+)]
 pub struct TestNamedStructure<'a> {
     age: u8,
     nick: &'a str,
@@ -14,7 +15,7 @@ pub struct TestNamedStructure<'a> {
     hobby: Box<String>,
 }
 
-impl Default for TestNamedStructure<'_> {
+impl Default for TestNamedStructure<'static> {
     fn default() -> Self {
         TestNamedStructure {
             age: 25,
@@ -28,9 +29,7 @@ impl Default for TestNamedStructure<'_> {
 #[cfg(test)]
 #[allow(dead_code)]
 mod tests {
-    use lombok_trait::NoArgsContructor;
-
-    use super::TestNamedStructure;
+    use crate::TestNamedStructure;
 
     #[test]
     fn test_getters() {
@@ -44,7 +43,12 @@ mod tests {
 
     #[test]
     fn test_setters() {
-        let mut data = TestNamedStructure::new();
+        let mut data = TestNamedStructure {
+            age: Default::default(),
+            nick: Default::default(),
+            languages: Default::default(),
+            hobby: Default::default(),
+        };
 
         let default = TestNamedStructure::default();
         let clone_default = default.clone();
@@ -53,6 +57,42 @@ mod tests {
         data.set_nick(clone_default.nick);
         data.set_languages(clone_default.languages);
         data.set_hobby(clone_default.hobby);
+
+        assert_eq!(default.age, data.age);
+        assert_eq!(default.nick, data.nick);
+        assert_eq!(default.languages, data.languages);
+        assert_eq!(default.hobby, data.hobby);
+    }
+
+    #[test]
+    fn test_no_args_constructor() {
+        let mut data = TestNamedStructure::new_default();
+
+        let default = TestNamedStructure::default();
+        let clone_default = default.clone();
+
+        data.set_age(clone_default.age);
+        data.set_nick(clone_default.nick);
+        data.set_languages(clone_default.languages);
+        data.set_hobby(clone_default.hobby);
+
+        assert_eq!(default.age, data.age);
+        assert_eq!(default.nick, data.nick);
+        assert_eq!(default.languages, data.languages);
+        assert_eq!(default.hobby, data.hobby);
+    }
+
+    #[test]
+    fn test_all_args_constructor() {
+        let default = TestNamedStructure::default();
+        let clone_default = default.clone();
+
+        let data = TestNamedStructure::new(
+            clone_default.age,
+            clone_default.nick,
+            clone_default.languages,
+            clone_default.hobby,
+        );
 
         assert_eq!(default.age, data.age);
         assert_eq!(default.nick, data.nick);
