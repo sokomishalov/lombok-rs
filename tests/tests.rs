@@ -117,4 +117,11 @@ mod tests {
         assert!(!&default.equals(&clone_default));
         assert_ne!(&default.hash_code(), &clone_default.hash_code());
     }
+
+    #[test]
+    fn test_to_string() {
+        let default = TestNamedStructure::default();
+        let string = default.to_string();
+        assert_eq!(String::from("TestNamedStructure { age: 25, nick: \"sokomishalov\", languages: [\"rust\", \"kotlin\"], hobby: \"soccer\" }"), string)
+    }
 }
