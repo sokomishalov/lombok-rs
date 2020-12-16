@@ -1,9 +1,5 @@
-// fixme
-#![feature(derive_eq)]
-#![feature(structural_match)]
-
 use lombok::{
-    AllArgsContructor, Builder, EqualsAndHashcode, Getter, NoArgsConstructor, Setter, ToString,
+    AllArgsContructor, Builder, EqualsAndHashCode, Getter, NoArgsConstructor, Setter, ToString,
 };
 
 #[derive(
@@ -12,7 +8,7 @@ use lombok::{
     NoArgsConstructor,
     AllArgsContructor,
     Builder,
-    EqualsAndHashcode,
+    EqualsAndHashCode,
     ToString,
     Clone,
 )]
@@ -106,5 +102,17 @@ mod tests {
         assert_eq!(default.nick, data.nick);
         assert_eq!(default.languages, data.languages);
         assert_eq!(default.hobby, data.hobby);
+    }
+
+    #[test]
+    fn test_equals_and_hashcode() {
+        let default = TestNamedStructure::default();
+        let mut clone_default = default.clone();
+
+        assert!(&default.eq(&clone_default));
+
+        clone_default.age = 10;
+
+        assert!(&default.ne(&clone_default));
     }
 }

@@ -5,7 +5,7 @@ use std::iter::FromIterator;
 
 use all_args_constructor::all_args_constructor;
 use builder::builder;
-use equals_and_hashcode::equals_and_hashcode;
+use equals_and_hash_code::equals_and_hash_code;
 use getter::getter;
 use no_args_constructor::no_args_constructor;
 use setter::setter;
@@ -13,7 +13,7 @@ use to_string::to_string;
 
 mod all_args_constructor;
 mod builder;
-mod equals_and_hashcode;
+mod equals_and_hash_code;
 mod getter;
 mod no_args_constructor;
 mod setter;
@@ -46,9 +46,9 @@ pub fn derive_builder(input: TokenStream) -> TokenStream {
     builder(input)
 }
 
-#[proc_macro_derive(EqualsAndHashcode)]
-pub fn derive_equals_and_hashcode(input: TokenStream) -> TokenStream {
-    equals_and_hashcode(input)
+#[proc_macro_derive(EqualsAndHashCode)]
+pub fn derive_equals_and_hash_code(input: TokenStream) -> TokenStream {
+    equals_and_hash_code(input)
 }
 
 #[proc_macro_derive(ToString)]
@@ -62,9 +62,10 @@ pub fn derive_data(input: TokenStream) -> TokenStream {
         vec![
             getter(input.clone()),
             setter(input.clone()),
+            no_args_constructor(input.clone()),
             all_args_constructor(input.clone()),
+            equals_and_hash_code(input.clone()),
             to_string(input.clone()),
-            equals_and_hashcode(input.clone()),
         ]
         .into_iter(),
     )
