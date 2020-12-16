@@ -47,7 +47,7 @@ pub(crate) fn builder(input: TokenStream) -> TokenStream {
         let field_name = field.ident.clone().unwrap();
 
         quote! {
-            #field_name: self.#field_name,
+            #field_name: self.#field_name.clone(),
         }
     });
 
@@ -73,7 +73,7 @@ pub(crate) fn builder(input: TokenStream) -> TokenStream {
                 #builder_methods
            )*
 
-            pub fn build(self) -> #name #ty_generics {
+            pub fn build(&self) -> #name #ty_generics {
                  #name {
                      #(
                          #struct_params

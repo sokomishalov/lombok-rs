@@ -7,8 +7,8 @@ use lombok::{
     Setter,
     NoArgsConstructor,
     AllArgsContructor,
-    Builder,
     EqualsAndHashCode,
+    Builder,
     ToString,
     Clone,
 )]
@@ -123,5 +123,20 @@ mod tests {
         let default = TestNamedStructure::default();
         let string = default.to_string();
         assert_eq!(String::from("TestNamedStructure { age: 25, nick: \"sokomishalov\", languages: [\"rust\", \"kotlin\"], hobby: \"soccer\" }"), string)
+    }
+
+    #[test]
+    fn test_builder() {
+        let default = TestNamedStructure::default();
+        let clone_default = default.clone();
+
+        let data = TestNamedStructure::builder()
+            .age(clone_default.age)
+            .nick(clone_default.nick)
+            .languages(clone_default.languages)
+            .hobby(clone_default.hobby)
+            .build();
+
+        assert_eq!(&default, &data);
     }
 }
