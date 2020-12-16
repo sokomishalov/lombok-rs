@@ -109,10 +109,12 @@ mod tests {
         let default = TestNamedStructure::default();
         let mut clone_default = default.clone();
 
-        assert!(&default.eq(&clone_default));
+        assert!(&default.equals(&clone_default));
+        assert_eq!(&default.hash_code(), &clone_default.hash_code());
 
         clone_default.age = 10;
 
-        assert!(&default.ne(&clone_default));
+        assert!(!&default.equals(&clone_default));
+        assert_ne!(&default.hash_code(), &clone_default.hash_code());
     }
 }

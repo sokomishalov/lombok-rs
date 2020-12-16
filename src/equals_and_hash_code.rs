@@ -59,8 +59,22 @@ pub(crate) fn equals_and_hash_code(input: TokenStream) -> TokenStream {
     });
 
     TokenStream::from(quote! {
+        use std::hash::{Hash, Hasher};
+
+        impl #impl_generics #name #ty_generics #where_clause {
+            fn equals(&self, other: &#name#ty_generics) -> bool {
+                self.eq(&other)
+            }
+
+            fn hash_code(&self) -> u64 {
+                let mut hasher = ::std::collections::hash_map::DefaultHasher::new();
+                &self.hash(&mut hasher);
+                hasher.finish()
+            }
+        }
+
         impl #impl_generics ::core::cmp::PartialEq for #name #ty_generics #where_clause {
-            fn eq(&self, other: &TestNamedStructure#ty_generics) -> bool {
+            fn eq(&self, other: &#name#ty_generics) -> bool {
                 match *other {
                     #name {
                         #(
