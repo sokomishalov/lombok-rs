@@ -22,7 +22,16 @@ Any feedback is appreciated.
 - [x] `@AllArgsConstructor` - `#[derive(AllArgsConstructor)]`
 - [x] `@Builder` - `#[derive(Builder)]`
 
-<br>
+## Usage
+
+Update `Cargo.toml`
+
+```toml
+[dependencies]
+lombok = "0.1"
+```
+
+Source code usage examples you can see [in tests](./tests/tests.rs).
 
 ## License
 

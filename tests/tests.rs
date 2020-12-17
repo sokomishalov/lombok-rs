@@ -19,7 +19,7 @@ pub struct TestNamedStructure<'a> {
     hobby: Box<String>,
 }
 
-impl Default for TestNamedStructure<'static> {
+impl<'a> Default for TestNamedStructure {
     fn default() -> Self {
         TestNamedStructure {
             age: 25,
