@@ -6,6 +6,8 @@ authors = ["sokomishalov <sokomishalov@mail.ru>"]
 edition = "2018"
 readme = "README.md"
 license = "MIT OR Apache-2.0"
+repository = "https://github.com/sokomishalov/lombok-rs"
+documentation = "https://docs.rs/lombok"
 
 [lib]
 proc-macro = true
