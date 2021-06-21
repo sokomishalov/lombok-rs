@@ -1,7 +1,7 @@
 use proc_macro::TokenStream;
 
-use quote::{format_ident, quote};
-use syn::{export::ToTokens, Type};
+use quote::{format_ident, quote, ToTokens};
+use syn::Type;
 
 use crate::utils::syn::{named_fields, parse_derive_input};
 
