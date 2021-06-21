@@ -1,9 +1,11 @@
 use lombok::{
-    AllArgsContructor, Builder, EqualsAndHashCode, Getter, NoArgsConstructor, Setter, ToString,
+    AllArgsContructor, Builder, EqualsAndHashCode, Getter, GetterMut, NoArgsConstructor, Setter,
+    ToString,
 };
 
 #[derive(
     Getter,
+    GetterMut,
     Setter,
     NoArgsConstructor,
     AllArgsContructor,
@@ -36,7 +38,7 @@ mod tests {
     use crate::TestNamedStructure;
 
     #[test]
-    fn test_getters() {
+    fn test_getter() {
         let default = TestNamedStructure::default();
 
         assert_eq!(&default.age, default.get_age());
@@ -46,7 +48,23 @@ mod tests {
     }
 
     #[test]
-    fn test_setters() {
+    fn test_getter_mut() {
+        let mut default = TestNamedStructure::default();
+        *default.get_age_mut() = 10;
+        *default.get_nick_mut() = "another";
+        *default.get_languages_mut() = vec!["python".to_string()];
+        *default.get_hobby_mut() = Box::new("tennis".to_string());
+
+        let copy = TestNamedStructure::default();
+
+        assert_ne!(copy.age, default.age);
+        assert_ne!(copy.nick, default.nick);
+        assert_ne!(copy.languages, default.languages);
+        assert_ne!(copy.hobby, default.hobby);
+    }
+
+    #[test]
+    fn test_setter() {
         let mut data = TestNamedStructure {
             age: Default::default(),
             nick: Default::default(),

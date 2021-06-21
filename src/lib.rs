@@ -7,6 +7,7 @@ use all_args_constructor::all_args_constructor;
 use builder::builder;
 use equals_and_hash_code::equals_and_hash_code;
 use getter::getter;
+use getter_mut::getter_mut;
 use no_args_constructor::no_args_constructor;
 use setter::setter;
 use to_string::to_string;
@@ -15,6 +16,7 @@ mod all_args_constructor;
 mod builder;
 mod equals_and_hash_code;
 mod getter;
+mod getter_mut;
 mod no_args_constructor;
 mod setter;
 mod to_string;
@@ -24,6 +26,11 @@ mod utils;
 #[proc_macro_derive(Getter)]
 pub fn derive_getter(input: TokenStream) -> TokenStream {
     getter(input)
+}
+
+#[proc_macro_derive(GetterMut)]
+pub fn derive_getter_mut(input: TokenStream) -> TokenStream {
+    getter_mut(input)
 }
 
 #[proc_macro_derive(Setter)]

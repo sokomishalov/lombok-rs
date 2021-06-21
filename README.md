@@ -13,7 +13,7 @@ Any feedback is appreciated.
 
 ## Implementation list so far
 
-- [x] `@Getter` - `#[derive(Getter)]`
+- [x] `@Getter` - `#[derive(Getter)]`/`#[derive(GetterMut)]`
 - [x] `@Setter` - `#[derive(Setter)]`
 - [x] `@EqualsAndHashCode` - `#[derive(EqualsAndHashCode)]`
 - [x] `@ToString` - `#[derive(ToString)]`
