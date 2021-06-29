@@ -43,7 +43,7 @@ pub fn derive_no_args_constructor(input: TokenStream) -> TokenStream {
     no_args_constructor(input)
 }
 
-#[proc_macro_derive(AllArgsContructor)]
+#[proc_macro_derive(AllArgsConstructor)]
 pub fn derive_all_args_constructor(input: TokenStream) -> TokenStream {
     all_args_constructor(input)
 }

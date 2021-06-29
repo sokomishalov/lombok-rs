@@ -1,5 +1,5 @@
 use lombok::{
-    AllArgsContructor, Builder, EqualsAndHashCode, Getter, GetterMut, NoArgsConstructor, Setter,
+    AllArgsConstructor, Builder, EqualsAndHashCode, Getter, GetterMut, NoArgsConstructor, Setter,
     ToString,
 };
 
@@ -8,7 +8,7 @@ use lombok::{
     GetterMut,
     Setter,
     NoArgsConstructor,
-    AllArgsContructor,
+    AllArgsConstructor,
     EqualsAndHashCode,
     Builder,
     ToString,
