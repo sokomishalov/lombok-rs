@@ -21,7 +21,7 @@ pub(crate) fn no_args_constructor(input: TokenStream) -> TokenStream {
     TokenStream::from(quote! {
         impl #impl_generics #name #ty_generics #where_clause {
             // FIXME overloading issue in case of using with AllArgsConstructor
-            fn new_default() -> Self {
+            pub fn new_default() -> Self {
                 Self {
                     #(
                         #structure_params
