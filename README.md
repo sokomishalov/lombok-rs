@@ -28,7 +28,7 @@ Update `Cargo.toml`
 
 ```toml
 [dependencies]
-lombok = "0.2"
+lombok = "0.3"
 ```
 
 Source code usage examples you can see [in tests](./tests/tests.rs).
