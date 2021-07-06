@@ -1,4 +1,8 @@
 # Lombok Rust
+[![](https://docs.rs/lombok/badge.svg)](https://docs.rs/lombok/)
+[![](https://img.shields.io/crates/v/lombok.svg)](https://crates.io/crates/lombok)
+[![](https://img.shields.io/crates/d/lombok.svg)](https://crates.io/crates/lombok)
+
 
 [Lombok](https://projectlombok.org) port for Rust.
 
