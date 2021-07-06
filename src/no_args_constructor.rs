@@ -19,14 +19,20 @@ pub(crate) fn no_args_constructor(input: TokenStream) -> TokenStream {
     });
 
     TokenStream::from(quote! {
-        impl #impl_generics #name #ty_generics #where_clause {
-            // FIXME overloading issue in case of using with AllArgsConstructor
-            pub fn new_default() -> Self {
+        impl #impl_generics ::core::default::Default for #name #ty_generics #where_clause {
+            fn default() -> Self {
                 Self {
                     #(
                         #structure_params
                     )*
                 }
+            }
+        }
+
+        impl #impl_generics #name #ty_generics #where_clause {
+            /// TODO find out a better way to provide `new` method without breaking `AllArgsConstructor` by overloading
+            pub fn new_default() -> Self {
+                ::core::default::Default::default()
             }
         }
     })

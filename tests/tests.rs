@@ -21,17 +21,6 @@ pub struct TestNamedStructure<'a> {
     hobby: Box<String>,
 }
 
-impl<'a> Default for TestNamedStructure<'a> {
-    fn default() -> Self {
-        TestNamedStructure {
-            age: 25,
-            nick: "sokomishalov",
-            languages: vec!["rust".to_string(), "kotlin".to_string()],
-            hobby: Box::new("soccer".to_string()),
-        }
-    }
-}
-
 #[cfg(test)]
 #[allow(dead_code)]
 mod tests {
@@ -140,7 +129,10 @@ mod tests {
     fn test_to_string() {
         let default = TestNamedStructure::default();
         let string = default.to_string();
-        assert_eq!(String::from("TestNamedStructure { age: 25, nick: \"sokomishalov\", languages: [\"rust\", \"kotlin\"], hobby: \"soccer\" }"), string)
+        assert_eq!(
+            String::from("TestNamedStructure { age: 0, nick: \"\", languages: [], hobby: \"\" }"),
+            string
+        )
     }
 
     #[test]
