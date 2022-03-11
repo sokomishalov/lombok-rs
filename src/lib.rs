@@ -72,7 +72,7 @@ pub fn derive_data(input: TokenStream) -> TokenStream {
             no_args_constructor(input.clone()),
             all_args_constructor(input.clone()),
             equals_and_hash_code(input.clone()),
-            to_string(input.clone()),
+            to_string(input),
         ]
         .into_iter(),
     )
