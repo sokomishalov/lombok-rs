@@ -1,6 +1,6 @@
 use proc_macro::TokenStream;
 
-use proc_macro2::TokenStream as TokenStream2;
+
 use quote::{format_ident, quote};
 
 use crate::utils::syn::{named_fields, parse_derive_input};
@@ -8,7 +8,7 @@ use crate::utils::syn::{named_fields, parse_derive_input};
 pub(crate) fn to_string(input: TokenStream) -> TokenStream {
     let derive_input = parse_derive_input(input);
 
-    let name = &derive_input.ident.clone();
+    let name = &derive_input.ident;
     let (impl_generics, ty_generics, where_clause) = &derive_input.generics.split_for_impl();
     let fields = named_fields(&derive_input);
     let plain_name = &derive_input.ident.clone().to_string();
@@ -29,7 +29,7 @@ pub(crate) fn to_string(input: TokenStream) -> TokenStream {
             let _ = debug_trait_builder.field(#plain_field_name, &&(*#reference));
         }
     });
-    let debug_body = TokenStream2::from(quote! {
+    let debug_body = quote! {
         match *self {
             #name {
                 #(
@@ -43,7 +43,7 @@ pub(crate) fn to_string(input: TokenStream) -> TokenStream {
                 debug_trait_builder.finish()
             }
         }
-    });
+    };
 
     TokenStream::from(quote! {
         impl #impl_generics ::std::fmt::Debug for #name #ty_generics #where_clause {
