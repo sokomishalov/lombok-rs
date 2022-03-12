@@ -62,7 +62,7 @@ pub(crate) fn equals_and_hash_code(input: TokenStream) -> TokenStream {
         use std::hash::{Hash, Hasher};
 
         impl #impl_generics #name #ty_generics #where_clause {
-            fn equals(&self, other: &#name#ty_generics) -> bool {
+            fn equals(&self, other: &#name #ty_generics) -> bool {
                 self.eq(&other)
             }
 
@@ -74,7 +74,7 @@ pub(crate) fn equals_and_hash_code(input: TokenStream) -> TokenStream {
         }
 
         impl #impl_generics ::core::cmp::PartialEq for #name #ty_generics #where_clause {
-            fn eq(&self, other: &#name#ty_generics) -> bool {
+            fn eq(&self, other: &#name #ty_generics) -> bool {
                 match *other {
                     #name {
                         #(
@@ -94,7 +94,7 @@ pub(crate) fn equals_and_hash_code(input: TokenStream) -> TokenStream {
                 }
             }
 
-            fn ne(&self, other: &TestNamedStructure#ty_generics) -> bool {
+            fn ne(&self, other: &#name #ty_generics) -> bool {
                 match *other {
                     #name {
                         #(
