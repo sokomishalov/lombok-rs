@@ -18,7 +18,7 @@ pub struct TestNamedStructure<'a> {
     age: u8,
     nick: &'a str,
     languages: Vec<String>,
-    hobby: Box<String>,
+    hobby: Box<&'a str>,
 }
 
 #[cfg(test)]
@@ -42,7 +42,7 @@ mod tests {
         *default.get_age_mut() = 10;
         *default.get_nick_mut() = "another";
         *default.get_languages_mut() = vec!["python".to_string()];
-        *default.get_hobby_mut() = Box::new("tennis".to_string());
+        *default.get_hobby_mut() = Box::new("tennis");
 
         let copy = TestNamedStructure::default();
 
