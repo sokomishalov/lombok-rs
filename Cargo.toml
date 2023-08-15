@@ -1,6 +1,6 @@
 [package]
 name = "lombok"
-version = "0.3.4"
+version = "0.4.0"
 description = "Lombok port for Rust"
 authors = ["sokomishalov <sokomishalov@mail.ru>"]
 edition = "2021"

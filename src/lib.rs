@@ -77,3 +77,16 @@ pub fn derive_data(input: TokenStream) -> TokenStream {
         .into_iter(),
     )
 }
+
+#[proc_macro_derive(Value)]
+pub fn derive_value(input: TokenStream) -> TokenStream {
+    TokenStream::from_iter(
+        vec![
+            getter(input.clone()),
+            all_args_constructor(input.clone()),
+            equals_and_hash_code(input.clone()),
+            to_string(input),
+        ]
+        .into_iter(),
+    )
+}

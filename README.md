@@ -10,8 +10,8 @@
 
 Just because I can!
 
-This crate is not actually the must-have one for development in Rust (unlike Java world), but if you find it useful - it
-would be great. Anyway - boilerplate sucks, so get some proc macros stuff for decrease it.
+This crate is not actually a must-have one for development in Rust (unlike Java world), but if you find it useful - it
+would be great. Anyway - boilerplate sucks, so get some proc macros stuff to decrease it.
 
 Any feedback is appreciated.
 
@@ -22,6 +22,7 @@ Any feedback is appreciated.
 - [x] `@EqualsAndHashCode` - `#[derive(EqualsAndHashCode)]`
 - [x] `@ToString` - `#[derive(ToString)]`
 - [x] `@Data` - `#[derive(Data)]`
+- [x] `@Value` - `#[derive(Value)]`
 - [x] `@NoArgsConstructor` - `#[derive(NoArgsConstructor)]`
 - [x] `@AllArgsConstructor` - `#[derive(AllArgsConstructor)]`
 - [x] `@Builder` - `#[derive(Builder)]`
@@ -32,7 +33,7 @@ Update `Cargo.toml`
 
 ```toml
 [dependencies]
-lombok = "0.3"
+lombok = "0.4"
 ```
 
 Source code usage examples you can see [in tests](./tests/tests.rs).
